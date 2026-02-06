@@ -1,0 +1,34 @@
+<main class="forecasts-page">
+  <h1>Weather forecast</h1>
+
+  <%= form_with url: forecasts_path, method: :get, local: true, class: "forecasts-form" do |f| %>
+    <div class="field">
+      <%= f.label :address, "Address (street, city, or zip)" %>
+      <%= f.text_field :address, value: @address, placeholder: "e.g. 123 Main St, Chicago or 60601", autofocus: true %>
+    </div>
+    <%= f.submit "Get forecast" %>
+  <% end %>
+
+  <% if @result %>
+    <% if @result[:error] %>
+      <p class="forecasts-error"><%= @result[:error] %></p>
+    <% else %>
+      <section class="forecasts-result">
+        <% if @result[:from_cache] %>
+          <p class="forecasts-result-cache">Served from cache (<%= forecast_cache_ttl_display %>)</p>
+        <% end %>
+        <p class="forecasts-result-address"><%= @result[:address] %></p>
+        <p class="forecasts-result-temp">
+          <%= @result[:current_temp] %> °C
+          <span class="current-label">current</span>
+        </p>
+        <% if @result[:high].present? || @result[:low].present? %>
+          <p class="forecasts-result-daily">
+            High <%= @result[:high] %> °C · Low <%= @result[:low] %> °C
+          </p>
+        <% end %>
+      </section>
+    <% end %>
+  <% end %>
+
+</main>

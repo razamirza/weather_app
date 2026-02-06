@@ -1,0 +1,8 @@
+# Minimal config so Rails boots (Active Storage not used in this app).
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
